@@ -54,3 +54,4 @@ curl http://localhost:8001 -X POST -H "Content-Type: application/json" -d '{"jso
 # 3. Activate the Andromeda hardfork by providing a value greater than the current block height, for example, 100.
 bash hardfork.sh 100
 ```
+6. Get the nodes' hardfork info again
