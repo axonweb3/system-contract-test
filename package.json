@@ -1,0 +1,13 @@
+{
+  "name": "hardhat-project",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^3.0.0",
+    "hardhat": "^2.18.1"
+  },
+  "dependencies": {
+    "patch-package": "^8.0.0"
+  },
+  "scripts": {
+    "addRpcLog": "patch-package"
+  }
+}
