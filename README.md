@@ -54,7 +54,8 @@ curl http://localhost:8001 -X POST -H "Content-Type: application/json" -d '{"jso
 cd axon-hardfork-test
 bash hardfork.sh 100 $your_workspace/axon
 ```
-6. Get the nodes' hardfork info again
+6. Get the nodes' hardfork info again  
+   Until you see the return of `"Andromeda": "enabled"`.
 
 7. Get the nodes' current metadata
 ```shell
@@ -67,9 +68,17 @@ for id in "${node_ids[@]}"; do
   eval "${curl_command}"
 done
 ```
-8. Select a node, for example node_1, to update the max_contract_limit
+8. Verify max_contract_limit configuration: 0x6000
 ```shell
-npx hardhat test --grep "update max_contract_limit" --network node_1
+npx hardhat test --grep "deploy a big contract larger than max_contract_limit"
 ```
-9. Get the nodes' current metadata again
-
+9. Select a node, for example node_2, to update the max_contract_limit
+```shell
+npx hardhat test --grep "update max_contract_limit" --network node_2
+```
+10. Get the nodes' current metadata again  
+    You'll see max_contract_limit is 0x8000 (32768).
+11. Verify max_contract_limit configuration: 0x8000
+```shell
+npx hardhat test --grep "deploy a big contract smaller than max_contract_limit"
+```
