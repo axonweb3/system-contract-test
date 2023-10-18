@@ -14,7 +14,7 @@ sed -i 's/hardforks = \[\]/hardforks = ["None"]/g' devtools/chain/specs/multi_no
 # If on Mac, please use this sed command.
 sed -i '' 's/hardforks = \[\]/hardforks = ["None"]/g' devtools/chain/specs/multi_nodes_short_epoch_len/chain-spec.toml
 # Check the hardforks configuration.
-grep "hardforks" devtools/chain/specs/single_node/chain-spec.toml
+grep "hardforks" devtools/chain/specs/multi_nodes_short_epoch_len/chain-spec.toml
 ```
 3. Start multiple Axon nodes
 ```shell
