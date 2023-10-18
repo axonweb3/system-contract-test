@@ -1,6 +1,11 @@
 #!/bin/bash
 hardfork_start_number="$1"
-axon_path="/Users/sunchengzhu/tmp/axon"
+
+if [ "$2" ]; then
+  axon_path="$2"
+else
+  axon_path="/Users/sunchengzhu/tmp/axon"
+fi
 
 node_ids=(1 2 3 4)
 
