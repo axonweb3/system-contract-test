@@ -68,7 +68,7 @@ for id in "${node_ids[@]}"; do
   eval "${curl_command}"
 done
 ```
-8. Verify max_contract_limit configuration: 0x6000
+8. Verify max_contract_limit configuration: 0x6000(24576)
 ```shell
 npx hardhat test --grep "deploy a big contract larger than max_contract_limit"
 ```
@@ -77,8 +77,8 @@ npx hardhat test --grep "deploy a big contract larger than max_contract_limit"
 npx hardhat test --grep "update max_contract_limit" --network node_2
 ```
 10. Get the nodes' current metadata again  
-    You'll see max_contract_limit is 0x8000 (32768).
-11. Verify max_contract_limit configuration: 0x8000
+    You'll see max_contract_limit is 0x8000.
+11. Verify max_contract_limit configuration: 0x8000(32768)
 ```shell
 npx hardhat test --grep "deploy a big contract smaller than max_contract_limit"
 ```
