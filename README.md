@@ -46,7 +46,7 @@ for id in "${node_ids[@]}"; do
 done
 ```
 
-5. Run hardfork.sh
+5. Run [hardfork.sh](https://github.com/sunchengzhu/axon-hardfork-test/blob/master/hardfork.sh)
 ```shell
 # 1. Update the $axon_path in hardfork.sh with your own Axon repository path.
 # 2. Get the current block height
