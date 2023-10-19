@@ -29,7 +29,7 @@ rm -rf ./devtools/chain/data
 if [[ "$OSTYPE" == "darwin"* ]]; then
     sed -i '' 's/hardforks = \[\]/hardforks = ["None"]/g' devtools/chain/specs/multi_nodes/chain-spec.toml
 else
-    sed -i 's/hardforks = \[\]/hardforks = ["None"]/g' devtools/chain/specs/multi_nodes_/chain-spec.toml
+    sed -i 's/hardforks = \[\]/hardforks = ["None"]/g' devtools/chain/specs/multi_nodes/chain-spec.toml
 fi
 
 grep "hardforks" devtools/chain/specs/multi_nodes/chain-spec.toml
