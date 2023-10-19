@@ -14,7 +14,7 @@ const config: HardhatUserConfig = {
   defaultNetwork: "node_1",
   networks: {
     node_0: {
-      url: "http://localhost:8000",
+      url: "http://127.0.0.1:8000",
       accounts: [privateKey0, verifierPrivateKey1]
     },
     node_1: {
