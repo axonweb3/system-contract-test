@@ -40,6 +40,8 @@ describe("check metadata", function () {
 
     const maxContractLimit = await getMaxContractLimit();
     console.log(`max_contract_limit: ${maxContractLimit}`)
+    expect(maxContractLimit).to.be.equal(32768)
+
     expect(contractSize && maxContractLimit >= BigInt(contractSize)).to.be.true;
   }).timeout(60000)
 
