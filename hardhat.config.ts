@@ -18,7 +18,7 @@ const config: HardhatUserConfig = {
       accounts: [privateKey0, verifierPrivateKey1]
     },
     node_1: {
-      url: "http://localhost:8001",
+      url: "http://127.0.0.1:8001",
       accounts: [privateKey0, verifierPrivateKey1, verifierPrivateKey2, verifierPrivateKey3, verifierPrivateKey4]
     },
     node_2: {
