@@ -52,7 +52,7 @@ sleep 20
 
 for id in "${node_ids[@]}"; do
   port=$((8000 + id))
-  url="http://localhost:${port}"
+  url="http://127.0.0.1:${port}"
   result_hex=$(curl -sS -X POST ${url} -H 'Content-Type: application/json' -d "{\"jsonrpc\":\"2.0\",\"method\":\"eth_blockNumber\",\"params\":[],\"id\":$id}" | jq -r '.result')
   result_decimal=$(( $result_hex ))
   echo "node_$id height: $result_decimal"
@@ -60,7 +60,7 @@ done
 
 for id in "${node_ids[@]}"; do
   port=$((8000 + id))
-  url="http://localhost:${port}"
+  url="http://127.0.0.1:${port}"
   curl_command="curl -sS -X POST ${url} -H 'Content-Type: application/json' -d '{\"jsonrpc\":\"2.0\",\"method\":\"axon_getHardforkInfo\",\"params\":[],\"id\":"$id"}' | jq"
   eval "${curl_command}"
 done

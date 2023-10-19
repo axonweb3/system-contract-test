@@ -22,15 +22,15 @@ const config: HardhatUserConfig = {
       accounts: [privateKey0, verifierPrivateKey1, verifierPrivateKey2, verifierPrivateKey3, verifierPrivateKey4]
     },
     node_2: {
-      url: "http://localhost:8002",
+      url: "http://127.0.0.1:8002",
       accounts: [privateKey0, verifierPrivateKey1, verifierPrivateKey2, verifierPrivateKey3, verifierPrivateKey4]
     },
     node_3: {
-      url: "http://localhost:8003",
+      url: "http://127.0.0.1:8003",
       accounts: [privateKey0, verifierPrivateKey1, verifierPrivateKey2, verifierPrivateKey3, verifierPrivateKey4]
     },
     node_4: {
-      url: "http://localhost:8004",
+      url: "http://127.0.0.1:8004",
       accounts: [privateKey0, verifierPrivateKey1, verifierPrivateKey2, verifierPrivateKey3, verifierPrivateKey4]
     }
   }
