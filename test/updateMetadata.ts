@@ -1,5 +1,4 @@
 import hre, { ethers } from "hardhat";
-import { expect } from 'chai';
 import axios from 'axios';
 
 describe("update metadata", function () {

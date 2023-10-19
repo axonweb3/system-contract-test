@@ -6,21 +6,7 @@ else
   axon_path="/Users/sunchengzhu/tmp/axon"
 fi
 
-if [ -d "$axon_path" ]; then
-  echo "axon_path: $axon_path"
-else
-  echo "axon_path: $axon_path does not exist."
-  exit 0
-fi
-
-current_block_hex=$(curl -s http://localhost:8001 -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}' | jq -r .result)
-current_block_dec=$(($current_block_hex))
-wait_block=30
-hardfork_start_number=$(($current_block_dec + $wait_block))
-
-echo "hardfork-start-number: $hardfork_start_number"
-echo $hardfork_start_number >hardfork_start_number.txt
-
+cd $axon_path || exit
 node_ids=(1 2 3 4)
 
 for id in "${node_ids[@]}"; do
@@ -38,12 +24,22 @@ done
 
 sleep 5
 
-cd $axon_path || exit
+rm -rf ./devtools/chain/data
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' 's/hardforks = \[\]/hardforks = ["None"]/g' devtools/chain/specs/multi_nodes/chain-spec.toml
+else
+    sed -i 's/hardforks = \[\]/hardforks = ["None"]/g' devtools/chain/specs/multi_nodes_/chain-spec.toml
+fi
+
+grep "hardforks" devtools/chain/specs/multi_nodes/chain-spec.toml
+
 
 for id in "${node_ids[@]}"; do
-  target/debug/axon hardfork -c devtools/chain/nodes/node_"${id}".toml \
-    --hardfork-start-number "$hardfork_start_number" --feature andromeda &
-  sleep 2
+  target/debug/axon init \
+    --config devtools/chain/nodes/node_${id}.toml \
+    --chain-spec devtools/chain/specs/multi_nodes/chain-spec.toml \
+    >/tmp/node_${id}.log
 done
 
 for id in "${node_ids[@]}"; do
@@ -58,7 +54,7 @@ for id in "${node_ids[@]}"; do
   port=$((8000 + id))
   url="http://localhost:${port}"
   result_hex=$(curl -sS -X POST ${url} -H 'Content-Type: application/json' -d "{\"jsonrpc\":\"2.0\",\"method\":\"eth_blockNumber\",\"params\":[],\"id\":$id}" | jq -r '.result')
-  result_decimal=$(($result_hex))
+  result_decimal=$(( $result_hex ))
   echo "node_$id height: $result_decimal"
 done
 

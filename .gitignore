@@ -9,3 +9,4 @@ typechain-types
 cache
 artifacts
 
+hardfork_start_number.txt
