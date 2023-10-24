@@ -41,7 +41,7 @@ sleep 5
 cd $axon_path || exit
 
 for id in "${node_ids[@]}"; do
-  target/debug/axon hardfork -c devtools/chain/nodes/node_"${id}".toml \
+  target/debug/axon hardfork -config devtools/chain/nodes/node_"${id}".toml \
     --hardfork-start-number "$hardfork_start_number" --feature andromeda &
   sleep 2
 done
