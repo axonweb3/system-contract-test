@@ -52,7 +52,7 @@ done
 curl http://localhost:8001 -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}' | jq
 # 2. Activate the Andromeda hardfork by providing a value greater than the current block height, for example, 100.
 cd axon-hardfork-test
-bash hardfork.sh 100 $your_workspace/axon
+bash hardfork.sh $your_workspace/axon
 ```
 6. Get the nodes' hardfork info again  
    Until you see the return of `"Andromeda": "enabled"`.
