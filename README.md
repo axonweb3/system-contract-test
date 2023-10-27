@@ -95,6 +95,7 @@ This project implements a testing process from the state of hardfork being disab
     }
     ```
 4. Get the nodes' hardfork info again  
+   Until you see the return of `"Andromeda": "enabled"`.
    ```shell
    node_ids=(1 2 3 4)
    for id in "${node_ids[@]}"; do
@@ -104,7 +105,6 @@ This project implements a testing process from the state of hardfork being disab
      eval "${curl_command}"
    done
    ```
-   Until you see the return of `"Andromeda": "enabled"`.
 
 5. Get the nodes' current metadata
    ```shell
