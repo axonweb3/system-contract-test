@@ -115,17 +115,17 @@ This project implements a testing process from the state of hardfork being disab
      eval "${curl_command}"
    done
    ```
-6. Verify max_contract_limit configuration: `0x6000`(24576)
+6. Verify `max_contract_limit` configuration: `0x6000`(24576)
    ```shell
    npx hardhat test --grep "deploy a big contract larger than max_contract_limit"
    ```
-7. Select a node, for example node_2, to update the max_contract_limit
+7. Select a node, for example node_2, to update the `max_contract_limit`
    ```shell
    npx hardhat test --grep "update max_contract_limit"
    ```
 8. Get the nodes' current metadata again  
-   You'll see that max_contract_limit has been changed to `0x8000`.
-9. Verify max_contract_limit configuration: 0x8000(32768)
+   You'll see that `max_contract_limit` has been changed to `0x8000`.
+9. Verify `max_contract_limit` configuration: `0x8000`(32768)
    ```shel
    npx hardhat test --grep "deploy a big contract smaller than max_contract_limit"
    ```
