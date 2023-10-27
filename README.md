@@ -2,62 +2,102 @@
 
 This project implements a testing process from the state of hardfork being disabled to being enabled.
 
-1. Clone the Axon repository
-```shell
-cd $your_workspace
-git clone https://github.com/axonweb3/axon.git
-cd axon
-```
-2. Configure to deactivate Andromeda hardfork activation (default is active)
-```shell
-sed -i 's/hardforks = \[\]/hardforks = ["None"]/g' devtools/chain/specs/multi_nodes/chain-spec.toml
-# If on Mac, please use this sed command.
-sed -i '' 's/hardforks = \[\]/hardforks = ["None"]/g' devtools/chain/specs/multi_nodes/chain-spec.toml
-# Check the hardforks configuration.
-grep "hardforks" devtools/chain/specs/multi_nodes/chain-spec.toml
-```
-3. Start multiple Axon nodes
-```shell
-cargo build
+1. Build Axon from source code
+    ```shell
+    cd $your_workspace
+    git clone https://github.com/axonweb3/axon.git
+    cd axon
+    cargo build
+    ```
+2. Start multiple Axon nodes
+   `reset.sh` is used to clear data and start axon nodes. You can also use it for the first-time startup.
+    ```shell
+    cd axon-hardfork-test
+    bash reset.sh $your_workspace/axon
+    ```
+    You should see an output similar to this following:
+    ```
+    No process found listening on port 8001
+    No process found listening on port 8002
+    No process found listening on port 8003
+    No process found listening on port 8004
+    hardforks = ["None"]
+    node_1 height: 6
+    node_2 height: 6
+    node_3 height: 6
+    node_4 height: 6
+    {
+      "jsonrpc": "2.0",
+      "result": {},
+      "id": 1
+    }
+    {
+      "jsonrpc": "2.0",
+      "result": {},
+      "id": 2
+    }
+    {
+      "jsonrpc": "2.0",
+      "result": {},
+      "id": 3
+    }
+    {
+      "jsonrpc": "2.0",
+      "result": {},
+      "id": 4
+    }
+    ```
 
-node_ids=(1 2 3 4)
-for id in "${node_ids[@]}"; do
-  target/debug/axon init \
-    --config devtools/chain/nodes/node_${id}.toml \
-    --chain-spec devtools/chain/specs/multi_nodes/chain-spec.toml \
-    >/tmp/node_${id}.log
-done
-
-for id in "${node_ids[@]}"; do
-  target/debug/axon run \
-    --config devtools/chain/nodes/node_${id}.toml \
-    >>/tmp/node_${id}.log &
-done
-```
-4. Get the nodes' hardfork info
-```shell
-for id in "${node_ids[@]}"; do
-  port=$((8000 + id))
-  url="http://localhost:${port}"
-
-  curl_command="curl -sS -X POST ${url} -H 'Content-Type: application/json' -d '{\"jsonrpc\":\"2.0\",\"method\":\"axon_getHardforkInfo\",\"params\":[],\"id\":"$id"}' | jq"
-
-  eval "${curl_command}"
-done
-```
-
-5. Run [hardfork.sh](https://github.com/sunchengzhu/axon-hardfork-test/blob/master/hardfork.sh)
-```shell
-# 1. Get the current block height
-curl http://localhost:8001 -X POST -H "Content-Type: application/json" -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}' | jq
-# 2. Activate the Andromeda hardfork by providing a value greater than the current block height, for example, 100.
-cd axon-hardfork-test
-bash hardfork.sh $your_workspace/axon
-```
-6. Get the nodes' hardfork info again  
+3. Enable hardfork
+   `hardfork.sh` enables the hardfork by [default after 30 blocks](https://github.com/sunchengzhu/axon-hardfork-test/blob/3880c355712c77d9fbef0863aaa382f0debec12b/hardfork.sh#L18).
+    ```shell
+    bash hardfork.sh $your_workspace/axon
+    ```
+   You should see an output similar to this following:
+    ```
+    axon_path: /Users/sunchengzhu/tmp/axon
+    hardfork-start-number: 694
+    Killing processes on port 8001: 9285
+    Killing processes on port 8002: 9286
+    Killing processes on port 8003: 9287
+    Killing processes on port 8004: 9288
+    node_1 height: 670
+    node_2 height: 670
+    node_3 height: 670
+    node_4 height: 670
+    {
+      "jsonrpc": "2.0",
+      "result": {
+        "Andromeda": "determined"
+      },
+      "id": 1
+    }
+    {
+      "jsonrpc": "2.0",
+      "result": {
+        "Andromeda": "determined"
+      },
+      "id": 2
+    }
+    {
+      "jsonrpc": "2.0",
+      "result": {
+        "Andromeda": "determined"
+      },
+      "id": 3
+    }
+    {
+      "jsonrpc": "2.0",
+      "result": {
+        "Andromeda": "determined"
+      },
+      "id": 4
+    }
+    ```
+4. Get the nodes' hardfork info again  
    Until you see the return of `"Andromeda": "enabled"`.
 
-7. Get the nodes' current metadata
+5. Get the nodes' current metadata
 ```shell
 for id in "${node_ids[@]}"; do
   port=$((8000 + id))
@@ -68,17 +108,17 @@ for id in "${node_ids[@]}"; do
   eval "${curl_command}"
 done
 ```
-8. Verify max_contract_limit configuration: 0x6000(24576)
+6. Verify max_contract_limit configuration: 0x6000(24576)
 ```shell
 npx hardhat test --grep "deploy a big contract larger than max_contract_limit"
 ```
-9. Select a node, for example node_2, to update the max_contract_limit
+7. Select a node, for example node_2, to update the max_contract_limit
 ```shell
 npx hardhat test --grep "update max_contract_limit" --network node_2
 ```
-10. Get the nodes' current metadata again  
+8. Get the nodes' current metadata again  
     You'll see max_contract_limit is 0x8000.
-11. Verify max_contract_limit configuration: 0x8000(32768)
+9. Verify max_contract_limit configuration: 0x8000(32768)
 ```shell
 npx hardhat test --grep "deploy a big contract smaller than max_contract_limit"
 ```
