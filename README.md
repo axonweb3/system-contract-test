@@ -49,7 +49,7 @@ This project implements a testing process from the state of hardfork being disab
     ```
 
 3. Enable hardfork  
-   `hardfork.sh` enables the hardfork by [default after 30 blocks](https://github.com/sunchengzhu/axon-hardfork-test/blob/3880c355712c77d9fbef0863aaa382f0debec12b/hardfork.sh#L18).
+   `hardfork.sh` enables the hardfork by [default after 30 blocks](https://github.com/axonweb3/axon-hardfork-test/blob/3880c355712c77d9fbef0863aaa382f0debec12b/hardfork.sh#L18).
     ```shell
     bash hardfork.sh $your_workspace/axon
     ```
