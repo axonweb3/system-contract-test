@@ -115,7 +115,7 @@ This project implements a testing process from the state of hardfork being disab
      eval "${curl_command}"
    done
    ```
-6. Verify max_contract_limit configuration: 0x6000(24576)
+6. Verify max_contract_limit configuration: `0x6000`(24576)
    ```shell
    npx hardhat test --grep "deploy a big contract larger than max_contract_limit"
    ```
