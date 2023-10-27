@@ -124,8 +124,8 @@ This project implements a testing process from the state of hardfork being disab
    npx hardhat test --grep "update max_contract_limit"
    ```
 8. Get the nodes' current metadata again  
-    You'll see max_contract_limit is 0x8000.
+   You'll see that max_contract_limit has been changed to `0x8000`.
 9. Verify max_contract_limit configuration: 0x8000(32768)
-   ```shell
+   ```shel
    npx hardhat test --grep "deploy a big contract smaller than max_contract_limit"
    ```
