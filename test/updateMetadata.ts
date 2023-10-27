@@ -3,11 +3,12 @@ import axios from 'axios';
 
 describe("update metadata", function () {
   it("update max_contract_limit", async () => {
-    const network = hre.network.name
-    const id = (network === "node_0") ? 1 : parseInt(network.replace("node_", ""));
     const signers = await ethers.getSigners();
+    const randomId = Math.ceil(Math.random() * 4);
+    const signer = signers[randomId];
+    console.log("signer: ", signer.address)
     const metadataManagerBase = await ethers.getContractAt("MetadataManager", "0xffffffffffffffffffffffffffffffffffffff01");
-    const metadataManager = metadataManagerBase.connect(signers[id])
+    const metadataManager = metadataManagerBase.connect(signer)
     const consensusConfig = {
       propose_ratio: 0xfn,             // 15
       prevote_ratio: 0xan,             // 10
