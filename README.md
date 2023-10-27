@@ -95,6 +95,15 @@ This project implements a testing process from the state of hardfork being disab
     }
     ```
 4. Get the nodes' hardfork info again  
+   ```shell
+   node_ids=(1 2 3 4)
+   for id in "${node_ids[@]}"; do
+     port=$((8000 + id))
+     url="http://127.0.0.1:${port}"
+     curl_command="curl -sS -X POST ${url} -H 'Content-Type: application/json' -d '{\"jsonrpc\":\"2.0\",\"method\":\"axon_getHardforkInfo\",\"params\":[],\"id\":"$id"}' | jq"
+     eval "${curl_command}"
+   done
+   ```
    Until you see the return of `"Andromeda": "enabled"`.
 
 5. Get the nodes' current metadata
@@ -102,9 +111,7 @@ This project implements a testing process from the state of hardfork being disab
    for id in "${node_ids[@]}"; do
      port=$((8000 + id))
      url="http://localhost:${port}"
-   
      curl_command="curl -sS -X POST ${url} -H 'Content-Type: application/json' --data '{\"jsonrpc\":\"2.0\",\"method\":\"axon_getCurrentMetadata\",\"params\":[],\"id\":"$id"}' | jq '.result.consensus_config.max_contract_limit'"
-   
      eval "${curl_command}"
    done
    ```
