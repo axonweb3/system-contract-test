@@ -121,7 +121,7 @@ This project implements a testing process from the state of hardfork being disab
    ```
 7. Select a node, for example node_2, to update the max_contract_limit
    ```shell
-   npx hardhat test --grep "update max_contract_limit" --network node_2
+   npx hardhat test --grep "update max_contract_limit"
    ```
 8. Get the nodes' current metadata again  
     You'll see max_contract_limit is 0x8000.
