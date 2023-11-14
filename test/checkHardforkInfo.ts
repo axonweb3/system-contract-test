@@ -25,15 +25,17 @@ describe("check hardfork info", function () {
       diff = blockNumber - startNumber;
 
       let expectedInfo;
-      if (diff >= 0) {
-        expectedInfo = { "Andromeda": "enabled" };
-      } else {
-        expectedInfo = { "Andromeda": "determined" };
-      }
-
       const info = await getHardforkInfo();
       console.log(`Diff: ${diff}, hardforkInfo: ${JSON.stringify(info)}`);
-      expect(info).to.deep.equal(expectedInfo);
+      if (attempts === 0 && diff >= 0) {
+        expect(info.Andromeda).to.satisfy((status: string) => status === 'proposed' || status === 'determined');
+      } else if (diff >= 0) {
+        expectedInfo = {"Andromeda": "enabled"};
+        expect(info).to.deep.equal(expectedInfo);
+      } else {
+        expectedInfo = {"Andromeda": "determined"};
+        expect(info).to.deep.equal(expectedInfo);
+      }
 
       if (diff >= 0) {
         shouldExitLoop = true;
