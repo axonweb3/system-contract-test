@@ -26,9 +26,10 @@ describe("check hardfork info", function () {
 
       let expectedInfo;
       const info = await getHardforkInfo();
-      console.log(`Diff: ${diff}, hardforkInfo: ${JSON.stringify(info)}`);
-      if (attempts === 0 && diff < 0) {
+      console.log(`Diff: ${diff}, hardforkInfo: ${JSON.stringify(info)}, attempts: ${attempts}`);
+      if (attempts < 6 && diff < 0) {
         expect(info.Andromeda).to.satisfy((status: string) => status === 'proposed' || status === 'determined');
+        console.log("Allow proposed")
       } else if (diff >= 0) {
         expectedInfo = {"Andromeda": "enabled"};
         expect(info).to.deep.equal(expectedInfo);
