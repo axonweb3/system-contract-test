@@ -44,12 +44,15 @@ describe("CkbLightClient", function () {
   });
 
   it("set state by non-validator", async function () {
+    let errorOccurred = false;
     try {
       await ckbLightClientContract0.setState(true);
     } catch (error: unknown) {
+      errorOccurred = true;
       const errorMessage = (error as Error).message;
       expect(errorMessage).to.contain("check authorization error")
     }
+    expect(errorOccurred, "Expected an error to occur during contract deployment, but none did.").to.equal(true);
   });
 
   it("update headers by validator", async function () {
@@ -59,12 +62,15 @@ describe("CkbLightClient", function () {
   });
 
   it("update headers by non-validator", async function () {
+    let errorOccurred = false;
     try {
-      await ckbLightClientContract.update([header]);
+      await ckbLightClientContract0.update([header]);
     } catch (error: unknown) {
+      errorOccurred = true;
       const errorMessage = (error as Error).message;
       expect(errorMessage).to.contain("check authorization error")
     }
+    expect(errorOccurred, "Expected an error to occur during contract deployment, but none did.").to.equal(true);
   });
 
   it("rollback headers by validator", async function () {
@@ -77,7 +83,7 @@ describe("CkbLightClient", function () {
   it("rollback headers by non-validator", async function () {
     const blockHash = Uint8Array.from(Array(32).fill(1));
     try {
-      await ckbLightClientContract.rollback([blockHash]);
+      await ckbLightClientContract0.rollback([blockHash]);
     } catch (error: unknown) {
       const errorMessage = (error as Error).message;
       expect(errorMessage).to.contain("check authorization error")
