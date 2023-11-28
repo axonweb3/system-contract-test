@@ -20,14 +20,25 @@ describe("update metadata", function () {
       interval: 0xbb8n,                // 3000
       max_contract_limit: 0x8000n      // 32768
     };
-    try {
-      const tx = await metadataManager.getFunction("updateConsensusConfig").send(consensusConfig);
-      console.log(`Transaction hash: ${tx.hash}`);
-      const receipt = await tx.wait();
-      console.log(receipt ? `Transaction confirmed in block: ${receipt.blockNumber}` : 'Transaction receipt is null.');
-    } catch (error: any) {
-      console.error("An error occurred:", error?.message || "Unknown error");
-    }
+    const from = signer.address
+    const feeData = await ethers.provider.getFeeData();
+    const gasPrice = "0x" + (feeData?.gasPrice?.toString(16) ?? "defaultValue");
+    const to = "0xffffffffffffffffffffffffffffffffffffff01"
+    const data = metadataManager.interface.encodeFunctionData("updateConsensusConfig", [consensusConfig]);
+    console.log(`Encoded data: ${data}`);
+
+    const tx = await ethers.provider.send("eth_sendTransaction", [{
+      from,
+      to,
+      // 21000
+      "gas": "0x5208",
+      "gasPrice": gasPrice,
+      "data": data
+    }])
+
+    const receipt = await getTxReceipt(tx, 100);
+    console.log(receipt ? `Transaction confirmed in block: ${receipt.blockNumber}` : 'Transaction receipt is null.');
+
   }).timeout(60000)
 })
 
@@ -49,4 +60,19 @@ export async function getMaxContractLimit(): Promise<bigint> {
   const maxContractLimitHex = response.data.result.consensus_config.max_contract_limit;
 
   return BigInt(maxContractLimitHex);
+}
+
+async function getTxReceipt(txHash: string, attempts: number) {
+  for (let i = 0; i < attempts; i++) {
+    const receipt = await ethers.provider.getTransactionReceipt(txHash);
+    if (receipt !== null) {
+      return receipt;
+    }
+    await sleep(1000);
+  }
+  return null;
+}
+
+async function sleep(timeOut: number | undefined) {
+  await new Promise(r => setTimeout(r, timeOut));
 }
