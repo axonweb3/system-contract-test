@@ -1,6 +1,15 @@
 import { ethers } from "hardhat";
 
 describe("transfer", function () {
+  it("transfer demo", async () => {
+    const signers = await ethers.getSigners();
+    const from = signers[0].address;
+    const to = "0x7752DCD7c6ce4aED048c028021D635CBEc6C001D";
+    const ethValue = "10";
+    const value = "0x" + ethers.parseUnits(ethValue, "ether").toString(16);
+    await transfer(from, to, value);
+  })
+
   it("transfer to verifiers", async () => {
     const signers = await ethers.getSigners();
     const from = signers[0].address;
@@ -15,7 +24,7 @@ describe("transfer", function () {
       }
       await transfer(from, to, value);
     }
-  }).timeout(60000)
+  })
 })
 
 

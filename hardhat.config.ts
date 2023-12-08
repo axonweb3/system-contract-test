@@ -8,6 +8,7 @@ const verifierPrivateKey1 = "37aa0f893d05914a4def0460c0a984d3611546cfb26924d7a7c
 const verifierPrivateKey2 = "383fcff8683b8115e31613949be24254b4204ffbe43c227408a76334a2e3fb32"
 const verifierPrivateKey3 = "51ce21643b911347c5d5c85c323d9d5421810dc89f46b688720b2715f5e8e936"
 const verifierPrivateKey4 = "69ff51f4c22f30615f68b88efa740f8f1b9169e88842b83d189748d06f1a948e"
+const proofPrivateKey = "5af7968aa9b98c864e716ec42ea37d75a7904f0a5adc040405c24562a9f186ee"
 
 const config: HardhatUserConfig = {
   solidity: "0.8.19",
@@ -32,9 +33,11 @@ const config: HardhatUserConfig = {
     node_4: {
       url: "http://127.0.0.1:8004",
       accounts: [privateKey0, verifierPrivateKey1, verifierPrivateKey2, verifierPrivateKey3, verifierPrivateKey4]
+    },
+    proof: {
+      url: "http://127.0.0.1:8001",
+      accounts: [proofPrivateKey]
     }
   }
 };
 export default config;
-
-
