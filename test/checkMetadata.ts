@@ -1,6 +1,5 @@
-import hre, { ethers } from "hardhat";
+import { ethers } from "hardhat";
 import { expect } from 'chai';
-import axios from 'axios';
 import { getMaxContractLimit } from "./updateMetadata";
 
 describe("check metadata", function () {

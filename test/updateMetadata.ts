@@ -1,5 +1,4 @@
-import hre, { ethers } from "hardhat";
-import axios from 'axios';
+import { ethers } from "hardhat";
 
 describe("update metadata", function () {
   it("update max_contract_limit", async () => {
@@ -44,21 +43,8 @@ describe("update metadata", function () {
 
 
 export async function getMaxContractLimit(): Promise<bigint> {
-  const network = hre.network.name
-  const networkConfig = hre.config.networks[network];
-  const URL = (networkConfig as any).url;
-  const response = await axios.post(URL, {
-    jsonrpc: '2.0',
-    method: 'axon_getCurrentMetadata',
-    params: [],
-    id: 1
-  }, {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const maxContractLimitHex = response.data.result.consensus_config.max_contract_limit;
-
+  const response = await ethers.provider.send('axon_getCurrentMetadata', []);
+  const maxContractLimitHex = response.consensus_config.max_contract_limit;
   return BigInt(maxContractLimitHex);
 }
 

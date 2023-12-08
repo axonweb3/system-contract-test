@@ -1,12 +1,10 @@
 import { expect } from "chai";
-import hre, { ethers } from "hardhat";
-import axios from "axios";
+import { ethers } from "hardhat";
 import fs from "fs";
-
 
 describe("check hardfork info", function () {
   it("check hardfork info before hardfork", async () => {
-    const info = await getHardforkInfo()
+    const info = await ethers.provider.send('axon_getHardforkInfo', []);
     console.log(`hardforkInfo: ${JSON.stringify(info)}`);
     expect(info).to.deep.equal({});
   }).timeout(30000)
@@ -25,7 +23,7 @@ describe("check hardfork info", function () {
       diff = blockNumber - startNumber;
 
       let expectedInfo;
-      const info = await getHardforkInfo();
+      const info = await ethers.provider.send('axon_getHardforkInfo', []);
       console.log(`Diff: ${diff}, hardforkInfo: ${JSON.stringify(info)}, attempts: ${attempts}`);
       if (attempts < 6 && diff < 0) {
         expect(info.Andromeda).to.satisfy((status: string) => status === 'proposed' || status === 'determined');
@@ -50,22 +48,3 @@ describe("check hardfork info", function () {
     }
   }).timeout(180000);
 })
-
-async function getHardforkInfo(): Promise<Record<string, string>> {
-  const network = hre.network.name;
-  const networkConfig = hre.config.networks[network];
-  const URL = (networkConfig as any).url;
-
-  const response = await axios.post(URL, {
-    jsonrpc: '2.0',
-    method: 'axon_getHardforkInfo',
-    params: [],
-    id: 1
-  }, {
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-
-  return response.data.result;
-}
