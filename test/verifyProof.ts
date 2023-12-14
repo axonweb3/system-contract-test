@@ -92,7 +92,7 @@ function getStorageSlot(key: string, mappingSlot: string) {
 }
 
 describe('call system contracts', () => {
-  const systemContracts = ['0xffffffffffffffffffffffffffffffffffffff00', '0xffffffffffffffffffffffffffffffffffffff01', '0xffffffffffffffffffffffffffffffffffffff02', '0xffffffffffffffffffffffffffffffffffffff02', '0xffffffffffffffffffffffffffffffffffffff03']
+  const systemContracts = ['0xffffffffffffffffffffffffffffffffffffff00', '0xffffffffffffffffffffffffffffffffffffff01', '0xffffffffffffffffffffffffffffffffffffff02', '0xffffffffffffffffffffffffffffffffffffff03']
   it('call getStorageAt to system contracts', async () => {
     let errorCount = 0
     for (let i = 0; i < systemContracts.length; i++) {
